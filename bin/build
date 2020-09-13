@@ -1,0 +1,18 @@
+#!/bin/bash -eu
+
+base_path="$(cd "$(dirname "$0")/.." && pwd)"
+src_path="$base_path/src"
+dist_path="$base_path/dist"
+
+rm -rf "$dist_path"
+mkdir -p "$dist_path"
+
+find "$src_path" -name "*.applescript" |
+while read src_file
+do
+  dist_file="$dist_path/$(basename "$src_file" ".applescript").app"
+  osacompile -o "$dist_file" "$src_file"
+
+  echo "build: $dist_file"
+
+done
